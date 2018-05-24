@@ -10,11 +10,17 @@ import java.util.List;
 public interface UserService {
     int deleteByPrimaryKey(Integer id);
 
+    int deleteByPrimaryKey(List<UserDO> users);
+
     int insert(UserDO record);
+
+    int insert(List<UserDO> users);
 
     int insertSelective(UserDO record);
 
     UserDO selectByPrimaryKey(Integer id);
+
+    List<UserDO> selectAll();
 
     Page<UserDO> pageBySelective(Page<UserDO> page);
 

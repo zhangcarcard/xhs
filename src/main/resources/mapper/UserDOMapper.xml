@@ -20,6 +20,12 @@
     from t_user
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_user
+  </select>
   
   <select id="pageBySelective" parameterType="Page" resultMap="BaseResultMap">
     select
@@ -91,7 +97,7 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="UserDO">
-    insert into t_user (id, sid, username, imei,
+    insert into t_user (id, username, sid, imei,
       device_id, board_id, gmt_create, 
       gmt_update)
     values (#{id,jdbcType=INTEGER}, #{username, jdbcType=VARCHAR}, #{sid,jdbcType=VARCHAR}, #{imei,jdbcType=VARCHAR},

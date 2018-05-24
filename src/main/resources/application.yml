@@ -4,7 +4,7 @@ mybatis:
 
 spring:
   datasource:
-    url: jdbc:sqlite:C:/Users/poppy/IdeaProjects/xhs/xhs/src/main/resources/xhs.db
+    url: jdbc:sqlite:F:/projects/IdeaProjects/xhs/src/main/resources/xhs.db
     username:
     password:
     driver-class-name: org.sqlite.JDBC

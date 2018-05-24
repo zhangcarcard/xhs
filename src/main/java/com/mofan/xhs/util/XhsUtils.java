@@ -9,65 +9,6 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class XhsUtils {
-
-    public static void collect() {
-        OkHttpClient client = new OkHttpClient().newBuilder().connectTimeout(5L,  TimeUnit.SECONDS).build();
-        Request.Builder builder = new Request.Builder();
-
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded"), getCollectQueryString("5affff727ee0a943ccbf9723", "5afbd8b2948d5f24c87c4272", "10cb1a2a-dd3a-3beb-b227-c795c80e3ae1", "session.1211192026120274622"));
-        Request request = builder.addHeader("Authorization", "session.1211117351642353967")
-                .addHeader("User-Agent", "Dalvik/4.6.0 (Android 8.0.0;)")
-                .addHeader("Host", "www.xiaohongshu.com")
-                .url(XhsConsts.HOSTNAME + XhsConsts.URL_COLLECT)
-                .post(requestBody)
-                .build();
-
-        Callback callback = new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                System.out.println(Thread.currentThread().getId() + ":" + response.body().string());
-            }
-        };
-
-        client.newCall(request).enqueue(callback);
-    }
-
-    public static void main(String[] args) {
-        collect();
-    }
-
-
-    public static void like() {
-        OkHttpClient client = new OkHttpClient().newBuilder().connectTimeout(5L,  TimeUnit.SECONDS).build();
-
-        Request.Builder builder = new Request.Builder();
-        Request request = builder.addHeader("Authorization", "session.1211117351642353967")
-                .addHeader("User-Agent", "Dalvik/4.6.0 (Android 8.0.0;)")
-                .addHeader("Host", "www.xiaohongshu.com")
-                .url(XhsConsts.HOSTNAME + XhsConsts.URL_LIKE + getLikeQueryString("5afbc654a7c9b83ddadae5a5", "177ab015-e55b-3035-b8ad-a8eb4745b5ad", "session.1211117351642353967"))
-                .get()
-                .build();
-
-        Callback callback = new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                System.out.println(Thread.currentThread().getId() + ":" + response.body().string());
-            }
-        };
-
-        client.newCall(request).enqueue(callback);
-    }
-
     /**
      * 关注POST.
      * @param userIds
@@ -120,7 +61,7 @@ public class XhsUtils {
         params.put("deviceId", deviceId);
         params.put("reason", "");
         params.put("sid", sid);
-        params.put("t", "1526737385"/*String.valueOf(XhsConsts.currentSeconds())*/);
+        params.put("t", String.valueOf(XhsConsts.currentSeconds()));
 
         String queryString = getQueryString(params);
         return queryString + "sign=" + SignUtils.sign(queryString, deviceId);
@@ -148,7 +89,22 @@ public class XhsUtils {
         return queryString + "sign=" + SignUtils.sign(queryString, deviceId);
     }
 
+    /**
+     * 收藏夹GET.
+     * @param deviceId
+     * @param sid
+     * @return
+     */
+    public static String getBoardLiteQueryString(String deviceId, String sid) {
+        Map<String, String> params = new HashMap<>(XhsConsts.params);
+        params.put("page", "1");
+        params.put("deviceId", deviceId);
+        params.put("sid", sid);
+        params.put("t", String.valueOf(XhsConsts.currentSeconds()));
 
+        String queryString = getQueryString(params);
+        return queryString + "sign=" + SignUtils.sign(queryString, deviceId);
+    }
 
     public static String getQueryString(Map<String, String> params) {
         StringBuilder builder = new StringBuilder(512);

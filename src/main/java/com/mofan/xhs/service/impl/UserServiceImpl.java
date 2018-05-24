@@ -24,8 +24,22 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
+    public int deleteByPrimaryKey(List<UserDO> users) {
+        users.forEach(userDO -> userRepository.deleteByPrimaryKey(userDO.getId()));
+        return users.size();
+    }
+
+    @Transactional
+    @Override
     public int insert(UserDO record) {
         return userRepository.insert(record);
+    }
+
+    @Transactional
+    @Override
+    public int insert(List<UserDO> users) {
+        users.forEach(userDO -> userRepository.insert(userDO));
+        return users.size();
     }
 
     @Transactional
@@ -37,6 +51,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDO selectByPrimaryKey(Integer id) {
         return userRepository.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<UserDO> selectAll() {
+        return userRepository.selectAll();
     }
 
     @Override

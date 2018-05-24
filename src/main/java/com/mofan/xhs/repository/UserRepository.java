@@ -14,6 +14,8 @@ public interface UserRepository {
 
     UserDO selectByPrimaryKey(Integer id);
 
+    List<UserDO> selectAll();
+
     List<UserDO> pageBySelective(Page<UserDO> page);
 
     int countBySelective(UserDO record);
