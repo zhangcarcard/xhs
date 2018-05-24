@@ -1,0 +1,56 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.2.RELEASE'
+    }
+    repositories {
+        mavenLocal()
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.arenagod.gradle.MybatisGenerator'
+
+group = 'com.mofan'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+    mavenCentral()
+}
+
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-freemarker')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-websocket')
+    compile('org.springframework.boot:spring-boot-starter-jdbc')
+    compile('com.alibaba:fastjson:1.2.47')
+    compile('com.squareup.okhttp3:okhttp:3.10.0')
+//    runtime('org.postgresql:postgresql')
+    compile 'org.xerial:sqlite-jdbc:3.21.0.1'
+    compile 'org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2'
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    compile 'org.mybatis.generator:mybatis-generator-core:1.3.6'
+
+}
+
+configurations {
+    mybatisGenerator
+}
+// mybatis-generator.xml 配置路径
+//这里会遇到个问题：MyBatis Generator 通过xml生成，有日志但是没有生成文件成功的问题，
+//原因：mac下是找不到 ./src 路径的，需要全路径，如下配置。windows则为src/main/resources/generator.xml
+mybatisGenerator {
+    verbose = true
+    configFile = '${basedir}/src/main/resources/generatorConfig.xml'
+}
