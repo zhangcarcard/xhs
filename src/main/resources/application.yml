@@ -4,8 +4,13 @@ mybatis:
 
 spring:
   datasource:
-    url: jdbc:sqlite:F:/projects/IdeaProjects/xhs/src/main/resources/xhs.db
+    url: jdbc:sqlite:E:/xhs/xhs.db
     username:
     password:
     driver-class-name: org.sqlite.JDBC
+
+logging:
+  path: E:/xhs/logs
+server:
+  port: 80
 

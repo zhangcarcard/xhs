@@ -61,9 +61,14 @@ public class WebSocket {
         if (users.size() == 0) {
             JSONObject ret = new JSONObject();
             ret.put("tag", "operate");
-            ret.put("message", "当前系统中没有用户可供操作.");
+            ret.put("message", "当前系统中没有用户.");
             this.sendMessage(ret.toJSONString(), session);
             return;
+        } else {
+            JSONObject ret = new JSONObject();
+            ret.put("tag", "operate");
+            ret.put("message", "系统正在运行.");
+            this.sendMessage(ret.toJSONString(), session);
         }
 
     	String[] params = message.split("&");
@@ -77,11 +82,10 @@ public class WebSocket {
                 operates.add(kv[1]);
                 continue;
             }
-
             json.put(kv[0], kv.length == 2 ? kv[1] : "");
         }
 
-        System.out.println(json.toJSONString());
+        LOGGER.info(json.toJSONString());
         JSONObject ret = new JSONObject();
         int follows = 0;
         int likes = 0;
@@ -128,7 +132,7 @@ public class WebSocket {
                     boolean r = future.get();
                     ret.put("follow", r ? "关注成功" : "关注失败");
                 } catch (Exception e) {
-                    LOGGER.error("follow->future.get", e);
+                    ret.put("follow", "关注失败");
                 }
             }
             if (likes-- > 0) {
@@ -144,7 +148,7 @@ public class WebSocket {
                     boolean r = future.get();
                     ret.put("like", r ? "点赞成功" : "点赞失败");
                 } catch (Exception e) {
-                    LOGGER.error("like->future.get", e);
+                    ret.put("like", "点赞失败");
                 }
             }
             if (collects-- > 0) {
@@ -160,7 +164,7 @@ public class WebSocket {
                     boolean r = future.get();
                     ret.put("collect", r ? "收藏成功" : "收藏失败");
                 } catch (Exception e) {
-                    LOGGER.error("collect->future.get", e);
+                    ret.put("collect", "收藏失败");
                 }
             }
 
@@ -178,12 +182,12 @@ public class WebSocket {
                     boolean r = future.get();
                     ret.put("comment", r ? "评论成功" : "评论失败");
                 } catch (Exception e) {
-                    LOGGER.error("comment->future.get", e);
+                    ret.put("comment", "评论失败");
                 }
             }
 
             this.sendMessage(ret.toJSONString(), session);
-            System.out.println(ret.toJSONString());
+            LOGGER.info(ret.toJSONString());
         }
     }
     

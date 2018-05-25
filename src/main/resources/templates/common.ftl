@@ -11,9 +11,9 @@
             <ul class="nav navbar-nav">
                 <li <#if menu == "user" && submenu == "user">class="active"</#if>><a href="/user/list.html">用户列表</a></li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
+            <#--<ul class="nav navbar-nav navbar-right">
                 <li><a href="/logout.do">退出</a></li>
-            </ul>
+            </ul>-->
         </div>
     </nav>
 </#macro>

@@ -13,29 +13,34 @@
     <table id="table"></table>
     <div style="margin-top: 30px;">
         <form id="form">
-            <div class="form-inline" style="margin-top: 16px;">
-                <div class="form-group">
-                    <input type="text" class="form-control" name="noteId" placeholder="文章ID" required>
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" name="userId" placeholder="用户ID" required>
-                </div>
+            <div class="form-group">
+                <label for="noteId">文章</label>
+                <input type="text" class="form-control" name="noteId" placeholder="文章ID" required>
+            </div>
+            <div class="form-group">
+                <label for="userId">用户</label>
+                <input type="text" class="form-control" name="userId" placeholder="用户ID" required>
             </div>
             <div class="form-inline" style="margin-top: 16px;">
                 <div class="form-group hide follows">
+                    <label for="follows">关注</label>
                     <input type="number" class="form-control" name="follows" id="follows" placeholder="关注次数">
                 </div>
                 <div class="form-group hide likes">
+                    <label for="likes">点赞</label>
                     <input type="number" class="form-control" name="likes" id="likes" placeholder="点赞次数">
                 </div>
                 <div class="form-group hide collects">
+                    <label for="collects">收藏</label>
                     <input type="number" class="form-control" name="collects" id="collects" placeholder="收藏次数">
                 </div>
                 <div class="form-group hide cts">
+                    <label for="cts">评论</label>
                     <input type="number" class="form-control" name="cts" id="cts" placeholder="评论次数">
                 </div>
             </div>
             <div class="form-group hide comments" style="margin-top: 16px;">
+                <label for="comments">评论内容</label>
                 <input type="text" class="form-control" name="comments" id="comments" placeholder="评论内容">
             </div>
             <div class="checkbox">
@@ -67,7 +72,7 @@
         var websocket = null;
         //判断当前浏览器是否支持WebSocket
         if ('WebSocket' in window) {
-            websocket = new WebSocket("ws://localhost:8080/websocket");
+            websocket = new WebSocket("ws://" + window.location.host + "/websocket");
         } else {
             toastr.error("当前浏览器 Not support websocket!");
         }
@@ -96,7 +101,7 @@
 
         //连接关闭的回调方法
         websocket.onclose = function () {
-            toastr.info("连接关闭")
+            toastr.info("连接已关闭")
         }
 
         //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
@@ -111,17 +116,7 @@
             }
 
             var params = $(this).serialize();
-            console.log(params);
             websocket.send(params);
-            /*$.post("/protocal/protocal.do", params, function(result) {
-                if (result.success) {
-                    toastr.success('保存成功.');
-                    $('#table').bootstrapTable('refresh', {silent: true});
-                    $('#addModal').modal('hide');
-                } else {
-                    toastr.error(result.message);
-                }
-            }, "json");*/
             return false;
         });
 
